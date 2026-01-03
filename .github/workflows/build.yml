@@ -19,35 +19,18 @@ jobs:
 
     - name: Setup build environment
       run: |
-        # sources.list 백업 및 수정 (Stack Overflow 해결책)
-        # sudo cp /etc/apt/sources.list /etc/apt/sources.list.backup
-        
-        # us.archive.ubuntu.com을 old-releases.ubuntu.com으로 변경
-        sudo sed -i 's|http://us.archive.ubuntu.com/ubuntu/|http://old-releases.ubuntu.com/ubuntu/|g' /etc/apt/sources.list
-        sudo sed -i 's|http://archive.ubuntu.com/ubuntu/|http://old-releases.ubuntu.com/ubuntu/|g' /etc/apt/sources.list
-        
-        # security.ubuntu.com도 old-releases로 변경
-        sudo sed -i 's|http://security.ubuntu.com/ubuntu/|http://old-releases.ubuntu.com/ubuntu/|g' /etc/apt/sources.list
-        
-        # sources.list.d 디렉토리의 파일들도 수정
-        if [ -d /etc/apt/sources.list.d ]; then
-          sudo find /etc/apt/sources.list.d -type f -name "*.list" -exec sed -i 's|http://us.archive.ubuntu.com/ubuntu/|http://old-releases.ubuntu.com/ubuntu/|g' {} \;
-          sudo find /etc/apt/sources.list.d -type f -name "*.list" -exec sed -i 's|http://archive.ubuntu.com/ubuntu/|http://old-releases.ubuntu.com/ubuntu/|g' {} \;
-          sudo find /etc/apt/sources.list.d -type f -name "*.list" -exec sed -i 's|http://security.ubuntu.com/ubuntu/|http://old-releases.ubuntu.com/ubuntu/|g' {} \;
-        fi
-        
-        # 기본 패키지 설치
-        sudo apt-get update || true
-        sudo apt-get install -y --fix-missing \
-          build-essential \
-          cmake \
-          clang
-        
         # 멀티아키텍처 지원 활성화
         sudo dpkg --add-architecture arm64
         sudo dpkg --add-architecture riscv64
         sudo dpkg --add-architecture i386
         sudo apt-get update
+
+        # 기본 패키지 설치
+        sudo apt-get install -y \
+          build-essential \
+          cmake \
+          clang      
+        
         
         # 네이티브 라이브러리 (x86_64)
         sudo apt-get install -y \
