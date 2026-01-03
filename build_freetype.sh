@@ -51,6 +51,16 @@ build_target() {
     
     cd "${BUILD_DIR}"
     
+    # 크로스 빌드 시 LD_LIBRARY_PATH 설정
+    if [ "$TARGET" != "native" ]; then
+        # 각 타겟 아키텍처에 맞는 라이브러리 경로 추가
+        export LD_LIBRARY_PATH="/usr/lib/${TARGET}:${LD_LIBRARY_PATH}"
+        export LD_LIBRARY_PATH="/usr/${TARGET}/lib:${LD_LIBRARY_PATH}"
+        export LD_LIBRARY_PATH="/usr/${TARGET}/lib64:${LD_LIBRARY_PATH}"
+        
+        echo "LD_LIBRARY_PATH: ${LD_LIBRARY_PATH}"
+    fi
+    
     # CMake 설정
     CMAKE_ARGS=(
         "${FREETYPE_DIR}"
