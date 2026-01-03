@@ -6,6 +6,9 @@ on:
       - 'v*'
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   build-libraries-cross:
     runs-on: ubuntu-latest
@@ -102,13 +105,14 @@ jobs:
 
     - name: Create Release
       if: startsWith(github.ref, 'refs/tags/v')
-      uses: actions/create-release@v1
+      uses: softprops/action-gh-release@v2.5.0
       with:
         files: |
-          libraries-${VERSION}.tar.gz
-          libraries-${VERSION}.zip
-        tag_name: ${{ steps.extract_version_name.outputs.version }} 
-        release_name: ${{ steps.extract_version_name.outputs.version }} 
+          libraries-*.tar.gz
+          libraries-*.zip
+        generate_release_notes: true
+        draft: false
+        prerelease: false
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
