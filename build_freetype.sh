@@ -62,6 +62,9 @@ build_target() {
         
         echo "PKG_CONFIG_LIBDIR: ${PKG_CONFIG_LIBDIR}"
         echo "PKG_CONFIG_PATH: ${PKG_CONFIG_PATH}"
+
+        ls -la "${ZLIB_LIB_DIR}"
+        ls -la "${ZLIB_PKG_DIR}"
     fi
     
     # CMake 설정
