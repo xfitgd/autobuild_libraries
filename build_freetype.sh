@@ -32,6 +32,27 @@ if [ ! -d "${FREETYPE_DIR}" ]; then
     exit 1
 fi
 
+# freetype CMakeLists.txt 패치: BZip2::BZip2를 직접 라이브러리 경로로 대체
+FREETYPE_CMAKE="${FREETYPE_DIR}/CMakeLists.txt"
+if [ -f "${FREETYPE_CMAKE}" ]; then
+    # 백업 생성
+    if [ ! -f "${FREETYPE_CMAKE}.backup" ]; then
+        cp "${FREETYPE_CMAKE}" "${FREETYPE_CMAKE}.backup"
+    fi
+    
+    # BZip2::BZip2를 직접 라이브러리 경로로 대체
+    awk '
+    /target_link_libraries\(freetype PRIVATE BZip2::BZip2\)/ {
+        print "  target_link_libraries(freetype PRIVATE ${BZIP2_LIBRARIES})"
+        print "  target_include_directories(freetype PRIVATE ${BZIP2_INCLUDE_DIR})"
+        next
+    }
+    { print }
+    ' "${FREETYPE_CMAKE}" > "${FREETYPE_CMAKE}.tmp" && mv "${FREETYPE_CMAKE}.tmp" "${FREETYPE_CMAKE}"
+    
+    echo "freetype CMakeLists.txt 패치 완료"
+fi
+
 # 빌드 함수
 build_target() {
     local TARGET=$1
@@ -80,20 +101,20 @@ build_target() {
     fi
     if [ -d "${BZIP2_LIB_DIR}" ]; then
         CMAKE_ARGS+=(
-            -DBZIP2_LIBRARIES="${BZIP2_LIB_DIR}/libbz2.so"
+            -DBZIP2_LIBRARIES="${BZIP2_LIB_DIR}/libbz2_static.a"
             -DBZIP2_INCLUDE_DIR="${SCRIPT_DIR}/install/bzip2/${TARGET}/include"
         )
     fi
     if [ -d "${BROTLI_LIB_DIR}" ]; then
         CMAKE_ARGS+=(
-            -DBROTLIDEC_LIBRARIES="${BROTLI_LIB_DIR}/libbrotlidec.so"
-            -DBROTLI_INCLUDE_DIR="${SCRIPT_DIR}/install/brotli/${TARGET}/include"
+            -DBROTLIDEC_LIBRARIES="${BROTLI_LIB_DIR}/libbrotlidec.a"
+            -DBROTLIDEC_INCLUDE_DIRS="${SCRIPT_DIR}/install/brotli/${TARGET}/include"
         )
     fi
     if [ -d "${HARFBUZZ_LIB_DIR}" ]; then
         CMAKE_ARGS+=(
-            -DHarfBuzz_LIBRARIES="${HARFBUZZ_LIB_DIR}/libharfbuzz.so"
-            -DHarfBuzz_INCLUDE_DIR="${SCRIPT_DIR}/install/harfbuzz/${TARGET}/include"
+            -DHARFBUZZ_LIBRARIES="${HARFBUZZ_LIB_DIR}/libharfbuzz.a"
+            -DHARFBUZZ_INCLUDE_DIR="${SCRIPT_DIR}/install/harfbuzz/${TARGET}/include"
         )
     fi
     
@@ -101,7 +122,6 @@ build_target() {
     if [ "$TARGET" != "native" ]; then
         CMAKE_ARGS+=(
             -DCMAKE_C_COMPILER=clang
-            -DCMAKE_CXX_COMPILER=clang++
             -DCMAKE_C_FLAGS="--target=${TARGET}"
             -DCMAKE_CXX_FLAGS="--target=${TARGET}"
         )
@@ -109,7 +129,6 @@ build_target() {
         # 네이티브 빌드는 기본 컴파일러 사용
         CMAKE_ARGS+=(
             -DCMAKE_C_COMPILER=clang
-            -DCMAKE_CXX_COMPILER=clang++
         )
     fi
     

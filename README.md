@@ -1,121 +1,67 @@
 # Auto Build Libraries
 
-여러 라이브러리를 자동으로 빌드하는 프로젝트입니다.
+A project for automatically building multiple libraries with cross-compilation support.
 
-## 지원하는 라이브러리
+## Supported Libraries
 
-- **libz (zlib)**: 데이터 압축 라이브러리입니다.
-- **bzip2**: 블록 정렬 압축 알고리즘 라이브러리입니다.
-- **brotli**: 범용 손실 없는 압축 알고리즘 라이브러리입니다.
-- **harfbuzz**: 텍스트 셰이핑 엔진 라이브러리입니다.
-- **freetype**: FreeType은 자유 소프트웨어로, 폰트 렌더링 라이브러리입니다.
+- **libz (zlib)**: Data compression library.
+- **bzip2**: Block-sorting compression algorithm library.
+- **brotli**: General-purpose lossless compression algorithm library.
+- **harfbuzz**: Text shaping engine library.
+- **freetype**: FreeType is free software, a font rendering library.
 
-## 시작하기
+## Getting Started
 
-### 1. Git Submodule 설정
+### 1. Git Submodule Setup
 
-프로젝트를 클론한 후, submodule을 초기화합니다:
+After cloning the project, initialize the submodules:
 
 ```bash
-# 방법 1: 자동 스크립트 사용
+# Method 1: Use the automatic script
 chmod +x setup_submodules.sh
 ./setup_submodules.sh
 
-# 방법 2: 수동으로 실행
+# Method 2: Manual execution
 git submodule update --init --recursive
 ```
 
-### 2. 라이브러리 빌드
+### 2. Building Libraries
 
-#### libz (zlib) 빌드
+#### Building libz (zlib)
 
-**크로스 빌드 (기본)**:
+**Cross-compilation (default)**:
 ```bash
 chmod +x build_libz.sh
 ./build_libz.sh
 ```
 
-**네이티브 빌드만**:
+**Native build only**:
 ```bash
 ./build_libz.sh --native
-# 또는
+# or
 ./build_libz.sh -n
 ```
 
-빌드된 라이브러리는 `install/libz/<target>/` 디렉토리에 설치됩니다.
+Built libraries are installed in the `install/libz/<target>/` directory.
 
-이하 생략..
+etc...
 
-**주의**: harfbuzz 빌드 전에 libz, bzip2, brotli를 먼저 빌드해야 합니다.
-**주의**: freetype 빌드 전에 libz, bzip2, brotli, harfbuzz를 먼저 빌드해야 합니다.
+**Note**: Build libz, bzip2, brotli, and harfbuzz before building freetype.
 
 
-다음 타겟 아키텍처에 대해 크로스 빌드를 수행하며, 각 타겟마다 **공유 라이브러리**와 **정적 라이브러리**를 모두 빌드합니다:
+Cross-compilation is performed for the following target architectures, building both **shared libraries** and **static libraries** for each target:
 - `aarch64-linux-gnu`
 - `riscv64-linux-gnu`
 - `x86_64-linux-gnu`
 - `i386-linux-gnu`
 
-**네이티브 빌드만**:
+**Native build only**:
 ```bash
 ./build_freetype.sh --native
-# 또는
+# or
 ./build_freetype.sh -n
 ```
 
-현재 시스템 아키텍처에 대해서만 네이티브 빌드를 수행합니다.
+Performs native build only for the current system architecture.
 
-빌드된 라이브러리는 각 타겟별로 `install/freetype/<target>/` 디렉토리에 설치되며, 공유 라이브러리와 정적 라이브러리가 모두 포함됩니다.
-
-## GitHub Actions
-
-이 프로젝트는 GitHub Actions를 사용하여 자동으로 빌드합니다:
-
-- **트리거**: push, pull request, 또는 수동 실행
-- **플랫폼**: Ubuntu, macOS, Windows
-- **아티팩트**: 빌드된 라이브러리가 자동으로 업로드됩니다
-
-## 프로젝트 구조
-
-```
-autobuild_libraries/
-├── libs/                    # Git submodule로 관리되는 라이브러리 소스
-│   ├── zlib/
-│   ├── bzip2/
-│   ├── brotli/
-│   ├── harfbuzz/
-│   └── freetype/
-├── build/                   # 빌드 중간 파일들 (gitignore)
-│   └── freetype/
-│       ├── <target>-shared/
-│       ├── <target>-static/
-│       ├── aarch64-linux-gnu-shared/
-│       ├── aarch64-linux-gnu-static/
-│       └── ...
-├── install/                 # 빌드된 라이브러리 설치 위치 (gitignore)
-│   └── freetype/
-│       ├── <target>/
-│       ├── aarch64-linux-gnu/
-│       └── ...
-├── .github/
-│   └── workflows/
-│       └── build.yml        # GitHub Actions 워크플로우
-├── build_libz.sh            # libz 빌드 스크립트
-├── build_bzip2.sh           # bzip2 빌드 스크립트
-├── build_brotli.sh          # brotli 빌드 스크립트
-├── build_harfbuzz.sh         # harfbuzz 빌드 스크립트
-├── build_freetype.sh        # freetype 빌드 스크립트
-├── setup_submodules.sh      # Submodule 설정 스크립트
-└── README.md
-```
-
-## 새로운 라이브러리 추가하기
-
-1. `libs/` 디렉토리에 submodule로 라이브러리 추가:
-   ```bash
-   git submodule add <repository-url> libs/<library-name>
-   ```
-
-2. 빌드 스크립트 작성: `build_<library-name>.sh`
-
-3. GitHub Actions 워크플로우에 새 라이브러리 빌드 작업 추가
+Built libraries are installed in `install/freetype/<target>/` directory for each target, including both shared and static libraries.

@@ -92,12 +92,6 @@ build_target() {
                 -DBZIP2_INCLUDE_DIR="${SCRIPT_DIR}/install/bzip2/${TARGET}/include"
             )
         fi
-        if [ -d "${BROTLI_LIB_DIR}" ]; then
-            CMAKE_ARGS+=(
-                -DBROTLIDEC_LIBRARIES="${BROTLI_LIB_DIR}/libbrotlidec.so"
-                -DBROTLI_INCLUDE_DIR="${SCRIPT_DIR}/install/brotli/${TARGET}/include"
-            )
-        fi
     else
         # 네이티브 빌드는 기본 컴파일러 사용
         CMAKE_ARGS+=(
