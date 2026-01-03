@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  build-freetype-cross:
+  build-libraries-cross:
     runs-on: ubuntu-latest
     
     steps:
@@ -36,10 +36,6 @@ jobs:
         chmod +x llvm.sh
         sudo ./llvm.sh 21 || true
         
-        sudo apt-get install -y \
-          zlib1g-dev \
-          libbz2-dev
-        
         # aarch64 크로스 컴파일 라이브러리
         sudo apt-get install -y \
           gcc-aarch64-linux-gnu \
@@ -54,8 +50,6 @@ jobs:
         sudo apt-get install -y \
           gcc-i686-linux-gnu \
           g++-i686-linux-gnu
-
-        sudo apt-get update || true
 
     - name: Build libz (cross-compile)
       shell: bash

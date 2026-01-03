@@ -58,21 +58,19 @@ build_target() {
         -DCMAKE_INSTALL_PREFIX="${INSTALL_DIR}"
         -DCMAKE_TRY_COMPILE_TARGET_TYPE=STATIC_LIBRARY
         -DBUILD_SHARED_LIBS="${BUILD_SHARED}"
+        -DZLIB_BUILD_TESTING=OFF
     )
     
     # 크로스 컴파일 설정
     if [ "$TARGET" != "native" ]; then
         CMAKE_ARGS+=(
             -DCMAKE_C_COMPILER=clang
-            -DCMAKE_CXX_COMPILER=clang++
             -DCMAKE_C_FLAGS="--target=${TARGET}"
-            -DCMAKE_CXX_FLAGS="--target=${TARGET}"
         )
     else
         # 네이티브 빌드는 기본 컴파일러 사용
         CMAKE_ARGS+=(
             -DCMAKE_C_COMPILER=clang
-            -DCMAKE_CXX_COMPILER=clang++
         )
     fi
     
