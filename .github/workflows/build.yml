@@ -1,0 +1,52 @@
+name: Build Libraries
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+jobs:
+  build-freetype:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        submodules: recursive
+
+    - name: Setup build environment (Linux)
+      if: matrix.os == 'ubuntu-latest'
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y build-essential cmake libpng-dev zlib1g-dev libbz2-dev
+
+    - name: Setup build environment (macOS)
+      if: matrix.os == 'macos-latest'
+      run: |
+        brew install cmake libpng zlib bzip2
+
+    - name: Setup build environment (Windows)
+      if: matrix.os == 'windows-latest'
+      run: |
+        choco install cmake -y
+
+    - name: Build freetype
+      shell: bash
+      run: |
+        chmod +x build_freetype.sh
+        ./build_freetype.sh
+
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: freetype-${{ matrix.os }}
+        path: |
+          install/freetype/**
+        retention-days: 7
+
