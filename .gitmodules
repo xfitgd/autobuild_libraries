@@ -4,3 +4,12 @@
 [submodule "libs/zlib"]
 	path = libs/zlib
 	url = https://github.com/madler/zlib.git
+[submodule "libs/bzip2"]
+	path = libs/bzip2
+	url = https://gitlab.com/bzip2/bzip2.git
+[submodule "libs/brotli"]
+	path = libs/brotli
+	url = https://github.com/google/brotli.git
+[submodule "libs/harfbuzz"]
+	path = libs/harfbuzz
+	url = https://github.com/harfbuzz/harfbuzz.git
