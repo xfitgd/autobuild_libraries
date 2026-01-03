@@ -34,7 +34,11 @@ jobs:
         sudo apt-get install -y \
           clang-20 \
           lldb-20 \
-          lld-20  
+          lld-20
+        
+        # clang-20, clang++-20을 clang, clang++로 심볼릭 링크 생성
+        sudo ln -sf /usr/bin/clang-20 /usr/bin/clang
+        sudo ln -sf /usr/bin/clang++-20 /usr/bin/clang++
         
         # aarch64 크로스 컴파일 라이브러리
         sudo apt-get install -y \
