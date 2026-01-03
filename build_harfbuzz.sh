@@ -51,11 +51,6 @@ build_target() {
     
     cd "${BUILD_DIR}"
     
-    # 의존성 라이브러리 경로 설정
-    ZLIB_LIB_DIR="${SCRIPT_DIR}/install/libz/${TARGET}/lib"
-    BZIP2_LIB_DIR="${SCRIPT_DIR}/install/bzip2/${TARGET}/lib"
-    BROTLI_LIB_DIR="${SCRIPT_DIR}/install/brotli/${TARGET}/lib"
-    
     # CMake 설정
     CMAKE_ARGS=(
         "${HARFBUZZ_DIR}"
@@ -78,20 +73,6 @@ build_target() {
             -DCMAKE_C_FLAGS="--target=${TARGET}"
             -DCMAKE_CXX_FLAGS="--target=${TARGET}"
         )
-        
-        # 의존성 라이브러리 경로 추가
-        if [ -d "${ZLIB_LIB_DIR}" ]; then
-            CMAKE_ARGS+=(
-                -DZLIB_LIBRARY="${ZLIB_LIB_DIR}/libz.so"
-                -DZLIB_INCLUDE_DIR="${SCRIPT_DIR}/install/libz/${TARGET}/include"
-            )
-        fi
-        if [ -d "${BZIP2_LIB_DIR}" ]; then
-            CMAKE_ARGS+=(
-                -DBZIP2_LIBRARIES="${BZIP2_LIB_DIR}/libbz2.so"
-                -DBZIP2_INCLUDE_DIR="${SCRIPT_DIR}/install/bzip2/${TARGET}/include"
-            )
-        fi
     else
         # 네이티브 빌드는 기본 컴파일러 사용
         CMAKE_ARGS+=(
