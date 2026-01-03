@@ -12,6 +12,24 @@ if [ ! -f ".gitmodules" ] || ! grep -q "zlib" .gitmodules 2>/dev/null; then
     git submodule add https://github.com/madler/zlib.git libs/zlib
 fi
 
+# bzip2 submodule 추가 (아직 추가되지 않은 경우)
+if [ ! -f ".gitmodules" ] || ! grep -q "bzip2" .gitmodules 2>/dev/null; then
+    echo "bzip2 submodule 추가 중..."
+    git submodule add https://gitlab.com/bzip2/bzip2.git libs/bzip2
+fi
+
+# brotli submodule 추가 (아직 추가되지 않은 경우)
+if [ ! -f ".gitmodules" ] || ! grep -q "brotli" .gitmodules 2>/dev/null; then
+    echo "brotli submodule 추가 중..."
+    git submodule add https://github.com/google/brotli.git libs/brotli
+fi
+
+# harfbuzz submodule 추가 (아직 추가되지 않은 경우)
+if [ ! -f ".gitmodules" ] || ! grep -q "harfbuzz" .gitmodules 2>/dev/null; then
+    echo "harfbuzz submodule 추가 중..."
+    git submodule add https://github.com/harfbuzz/harfbuzz.git libs/harfbuzz
+fi
+
 # freetype submodule 추가 (아직 추가되지 않은 경우)
 if [ ! -f ".gitmodules" ] || ! grep -q "freetype" .gitmodules 2>/dev/null; then
     echo "freetype submodule 추가 중..."

@@ -5,6 +5,9 @@
 ## 지원하는 라이브러리
 
 - **libz (zlib)**: 데이터 압축 라이브러리입니다.
+- **bzip2**: 블록 정렬 압축 알고리즘 라이브러리입니다.
+- **brotli**: 범용 손실 없는 압축 알고리즘 라이브러리입니다.
+- **harfbuzz**: 텍스트 셰이핑 엔진 라이브러리입니다.
 - **freetype**: FreeType은 자유 소프트웨어로, 폰트 렌더링 라이브러리입니다.
 
 ## 시작하기
@@ -41,17 +44,11 @@ chmod +x build_libz.sh
 
 빌드된 라이브러리는 `install/libz/<target>/` 디렉토리에 설치됩니다.
 
-#### freetype 빌드
+이하 생략..
 
-**주의**: freetype 빌드 전에 libz를 먼저 빌드해야 합니다.
+**주의**: harfbuzz 빌드 전에 libz, bzip2, brotli를 먼저 빌드해야 합니다.
+**주의**: freetype 빌드 전에 libz, bzip2, brotli, harfbuzz를 먼저 빌드해야 합니다.
 
-**크로스 빌드 (기본)**:
-
-**크로스 빌드 (기본)**:
-```bash
-chmod +x build_freetype.sh
-./build_freetype.sh
-```
 
 다음 타겟 아키텍처에 대해 크로스 빌드를 수행하며, 각 타겟마다 **공유 라이브러리**와 **정적 라이브러리**를 모두 빌드합니다:
 - `aarch64-linux-gnu`
@@ -84,6 +81,9 @@ chmod +x build_freetype.sh
 autobuild_libraries/
 ├── libs/                    # Git submodule로 관리되는 라이브러리 소스
 │   ├── zlib/
+│   ├── bzip2/
+│   ├── brotli/
+│   ├── harfbuzz/
 │   └── freetype/
 ├── build/                   # 빌드 중간 파일들 (gitignore)
 │   └── freetype/
@@ -101,6 +101,9 @@ autobuild_libraries/
 │   └── workflows/
 │       └── build.yml        # GitHub Actions 워크플로우
 ├── build_libz.sh            # libz 빌드 스크립트
+├── build_bzip2.sh           # bzip2 빌드 스크립트
+├── build_brotli.sh          # brotli 빌드 스크립트
+├── build_harfbuzz.sh         # harfbuzz 빌드 스크립트
 ├── build_freetype.sh        # freetype 빌드 스크립트
 ├── setup_submodules.sh      # Submodule 설정 스크립트
 └── README.md
@@ -116,25 +119,3 @@ autobuild_libraries/
 2. 빌드 스크립트 작성: `build_<library-name>.sh`
 
 3. GitHub Actions 워크플로우에 새 라이브러리 빌드 작업 추가
-
-## 요구사항
-
-- CMake 3.10 이상
-- C/C++ 컴파일러 (GCC, Clang, MSVC)
-- Git
-
-### Linux
-```bash
-sudo apt-get install build-essential cmake libpng-dev zlib1g-dev libbz2-dev
-```
-
-### macOS
-```bash
-brew install cmake libpng zlib bzip2
-```
-
-### Windows
-```bash
-choco install cmake
-```
-

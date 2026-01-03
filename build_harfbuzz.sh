@@ -1,9 +1,9 @@
 #!/bin/bash
 set -e
 
-# freetype 크로스 빌드 스크립트
+# harfbuzz 크로스 빌드 스크립트
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-FREETYPE_DIR="${SCRIPT_DIR}/libs/freetype"
+HARFBUZZ_DIR="${SCRIPT_DIR}/libs/harfbuzz"
 
 # 네이티브 빌드 옵션 확인
 NATIVE_ONLY=false
@@ -26,9 +26,9 @@ else
     )
 fi
 
-# freetype 디렉토리 확인
-if [ ! -d "${FREETYPE_DIR}" ]; then
-    echo "Error: freetype submodule이 없습니다. 'git submodule update --init --recursive'를 실행하세요."
+# harfbuzz 디렉토리 확인
+if [ ! -d "${HARFBUZZ_DIR}" ]; then
+    echo "Error: harfbuzz submodule이 없습니다. 'git submodule update --init --recursive'를 실행하세요."
     exit 1
 fi
 
@@ -42,8 +42,8 @@ build_target() {
     echo "빌드 중: ${TARGET} (${BUILD_TYPE})"
     echo "----------------------------------------"
     
-    BUILD_DIR="${SCRIPT_DIR}/build/freetype/${TARGET}-${BUILD_TYPE}"
-    INSTALL_DIR="${SCRIPT_DIR}/install/freetype/${TARGET}"
+    BUILD_DIR="${SCRIPT_DIR}/build/harfbuzz/${TARGET}-${BUILD_TYPE}"
+    INSTALL_DIR="${SCRIPT_DIR}/install/harfbuzz/${TARGET}"
     
     # 빌드 디렉토리 생성
     mkdir -p "${BUILD_DIR}"
@@ -55,47 +55,20 @@ build_target() {
     ZLIB_LIB_DIR="${SCRIPT_DIR}/install/libz/${TARGET}/lib"
     BZIP2_LIB_DIR="${SCRIPT_DIR}/install/bzip2/${TARGET}/lib"
     BROTLI_LIB_DIR="${SCRIPT_DIR}/install/brotli/${TARGET}/lib"
-    HARFBUZZ_LIB_DIR="${SCRIPT_DIR}/install/harfbuzz/${TARGET}/lib"
     
     # CMake 설정
     CMAKE_ARGS=(
-        "${FREETYPE_DIR}"
+        "${HARFBUZZ_DIR}"
         -DCMAKE_BUILD_TYPE=Release
         -DCMAKE_INSTALL_PREFIX="${INSTALL_DIR}"
         -DCMAKE_TRY_COMPILE_TARGET_TYPE=STATIC_LIBRARY
         -DBUILD_SHARED_LIBS="${BUILD_SHARED}"
-        -DFT_DISABLE_ZLIB=OFF
-        -DFT_DISABLE_BZIP2=OFF
-        -DFT_DISABLE_PNG=ON
-        -DFT_DISABLE_HARFBUZZ=OFF
-        -DFT_DISABLE_BROTLI=OFF
+        -DHB_HAVE_FREETYPE=OFF
+        -DHB_HAVE_GLIB=OFF
+        -DHB_HAVE_GOBJECT=OFF
+        -DHB_HAVE_ICU=OFF
+        -DHB_HAVE_CORETEXT=OFF
     )
-    
-    # 의존성 라이브러리 경로 추가
-    if [ -d "${ZLIB_LIB_DIR}" ]; then
-        CMAKE_ARGS+=(
-            -DZLIB_LIBRARY="${ZLIB_LIB_DIR}/libz.so"
-            -DZLIB_INCLUDE_DIR="${SCRIPT_DIR}/install/libz/${TARGET}/include"
-        )
-    fi
-    if [ -d "${BZIP2_LIB_DIR}" ]; then
-        CMAKE_ARGS+=(
-            -DBZIP2_LIBRARIES="${BZIP2_LIB_DIR}/libbz2.so"
-            -DBZIP2_INCLUDE_DIR="${SCRIPT_DIR}/install/bzip2/${TARGET}/include"
-        )
-    fi
-    if [ -d "${BROTLI_LIB_DIR}" ]; then
-        CMAKE_ARGS+=(
-            -DBROTLIDEC_LIBRARIES="${BROTLI_LIB_DIR}/libbrotlidec.so"
-            -DBROTLI_INCLUDE_DIR="${SCRIPT_DIR}/install/brotli/${TARGET}/include"
-        )
-    fi
-    if [ -d "${HARFBUZZ_LIB_DIR}" ]; then
-        CMAKE_ARGS+=(
-            -DHarfBuzz_LIBRARIES="${HARFBUZZ_LIB_DIR}/libharfbuzz.so"
-            -DHarfBuzz_INCLUDE_DIR="${SCRIPT_DIR}/install/harfbuzz/${TARGET}/include"
-        )
-    fi
     
     # 크로스 컴파일 설정
     if [ "$TARGET" != "native" ]; then
@@ -105,6 +78,26 @@ build_target() {
             -DCMAKE_C_FLAGS="--target=${TARGET}"
             -DCMAKE_CXX_FLAGS="--target=${TARGET}"
         )
+        
+        # 의존성 라이브러리 경로 추가
+        if [ -d "${ZLIB_LIB_DIR}" ]; then
+            CMAKE_ARGS+=(
+                -DZLIB_LIBRARY="${ZLIB_LIB_DIR}/libz.so"
+                -DZLIB_INCLUDE_DIR="${SCRIPT_DIR}/install/libz/${TARGET}/include"
+            )
+        fi
+        if [ -d "${BZIP2_LIB_DIR}" ]; then
+            CMAKE_ARGS+=(
+                -DBZIP2_LIBRARIES="${BZIP2_LIB_DIR}/libbz2.so"
+                -DBZIP2_INCLUDE_DIR="${SCRIPT_DIR}/install/bzip2/${TARGET}/include"
+            )
+        fi
+        if [ -d "${BROTLI_LIB_DIR}" ]; then
+            CMAKE_ARGS+=(
+                -DBROTLIDEC_LIBRARIES="${BROTLI_LIB_DIR}/libbrotlidec.so"
+                -DBROTLI_INCLUDE_DIR="${SCRIPT_DIR}/install/brotli/${TARGET}/include"
+            )
+        fi
     else
         # 네이티브 빌드는 기본 컴파일러 사용
         CMAKE_ARGS+=(
@@ -121,7 +114,7 @@ build_target() {
     # 설치
     cmake --install .
     
-    echo "freetype 빌드 완료 (${TARGET}, ${BUILD_TYPE}): ${INSTALL_DIR}"
+    echo "harfbuzz 빌드 완료 (${TARGET}, ${BUILD_TYPE}): ${INSTALL_DIR}"
     echo ""
 }
 
@@ -141,4 +134,3 @@ done
 echo "=========================================="
 echo "모든 타겟 빌드 완료!"
 echo "=========================================="
-

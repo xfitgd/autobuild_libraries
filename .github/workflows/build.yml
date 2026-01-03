@@ -57,6 +57,24 @@ jobs:
         chmod +x build_libz.sh
         ./build_libz.sh
 
+    - name: Build bzip2 (cross-compile)
+      shell: bash
+      run: |
+        chmod +x build_bzip2.sh
+        ./build_bzip2.sh
+
+    - name: Build brotli (cross-compile)
+      shell: bash
+      run: |
+        chmod +x build_brotli.sh
+        ./build_brotli.sh
+
+    - name: Build harfbuzz (cross-compile)
+      shell: bash
+      run: |
+        chmod +x build_harfbuzz.sh
+        ./build_harfbuzz.sh
+
     - name: Build freetype (cross-compile)
       shell: bash
       run: |
