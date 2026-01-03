@@ -51,21 +51,7 @@ build_target() {
     
     cd "${BUILD_DIR}"
     
-    # 크로스 빌드 시 PKG_CONFIG 설정
-    if [ "$TARGET" != "native" ]; then
-        # 각 타겟 아키텍처에 맞는 pkg-config 경로 설정
-        ZLIB_LIB_DIR="${SCRIPT_DIR}/install/libz/${TARGET}/lib"
-        ZLIB_PKG_DIR="${SCRIPT_DIR}/install/libz/${TARGET}/lib/pkgconfig"
-        
-        export PKG_CONFIG_LIBDIR="${ZLIB_LIB_DIR}"
-        export PKG_CONFIG_PATH="${ZLIB_PKG_DIR}"
-        
-        echo "PKG_CONFIG_LIBDIR: ${PKG_CONFIG_LIBDIR}"
-        echo "PKG_CONFIG_PATH: ${PKG_CONFIG_PATH}"
-
-        ls -la "${ZLIB_LIB_DIR}"
-        ls -la "${ZLIB_PKG_DIR}"
-    fi
+    ZLIB_LIB_DIR="${SCRIPT_DIR}/install/libz/${TARGET}/lib"
     
     # CMake 설정
     CMAKE_ARGS=(
@@ -74,6 +60,7 @@ build_target() {
         -DCMAKE_INSTALL_PREFIX="${INSTALL_DIR}"
         -DCMAKE_TRY_COMPILE_TARGET_TYPE=STATIC_LIBRARY
         -DBUILD_SHARED_LIBS="${BUILD_SHARED}"
+        -DZLIB_LIBRARY="${ZLIB_LIB_DIR}/libz.so"
         -DFT_DISABLE_ZLIB=OFF
         -DFT_DISABLE_BZIP2=OFF
         -DFT_DISABLE_PNG=ON
