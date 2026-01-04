@@ -59,6 +59,7 @@ build_target() {
         -DENABLE_DEBUG=OFF
         -DENABLE_SHARED_LIB=ON
         -DENABLE_STATIC_LIB=ON
+        -DENABLE_APP=OFF
     )
     
     # 크로스 컴파일 설정
