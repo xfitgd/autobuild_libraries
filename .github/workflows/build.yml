@@ -155,25 +155,25 @@ jobs:
       shell: bash
       run: |
         chmod +x build_libz.sh
-        ./build_libz.sh -android
+        ./build_libz.sh --android
 
     - name: Build bzip2 (cross-compile)
       shell: bash
       run: |
         chmod +x build_bzip2.sh
-        ./build_bzip2.sh -android
+        ./build_bzip2.sh --android
 
     - name: Build brotli (cross-compile)
       shell: bash
       run: |
         chmod +x build_brotli.sh
-        ./build_brotli.sh -android
+        ./build_brotli.sh --android
 
     - name: Build freetype (cross-compile)
       shell: bash
       run: |
         chmod +x build_freetype.sh
-        ./build_freetype.sh -android
+        ./build_freetype.sh --android
 
     - name: Upload artifacts
       uses: actions/upload-artifact@v4
