@@ -7,7 +7,6 @@ A project for automatically building multiple libraries with cross-compilation s
 - **libz (zlib)**: Data compression library.
 - **bzip2**: Block-sorting compression algorithm library.
 - **brotli**: General-purpose lossless compression algorithm library.
-- **harfbuzz**: Text shaping engine library.
 - **freetype**: FreeType is free software, a font rendering library.
 
 ## Getting Started
