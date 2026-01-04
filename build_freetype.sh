@@ -68,7 +68,7 @@ build_target() {
         -DFT_DISABLE_ZLIB=OFF
         -DFT_DISABLE_BZIP2=OFF
         -DFT_DISABLE_PNG=ON
-        -DFT_DISABLE_HARFBUZZ=OFF
+        -DFT_DISABLE_HARFBUZZ=ON
         -DFT_DISABLE_BROTLI=OFF
     )
     

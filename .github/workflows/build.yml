@@ -38,12 +38,6 @@ jobs:
         chmod +x build_brotli.sh
         ./build_brotli.sh --native
 
-    - name: Build harfbuzz (native)
-      shell: bash
-      run: |
-        chmod +x build_harfbuzz.sh
-        ./build_harfbuzz.sh --native
-
     - name: Build freetype (native)
       shell: bash
       run: |
@@ -118,12 +112,6 @@ jobs:
       run: |
         chmod +x build_brotli.sh
         ./build_brotli.sh
-
-    - name: Build harfbuzz (cross-compile)
-      shell: bash
-      run: |
-        chmod +x build_harfbuzz.sh
-        ./build_harfbuzz.sh
 
     - name: Build freetype (cross-compile)
       shell: bash
