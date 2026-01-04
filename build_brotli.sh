@@ -49,11 +49,6 @@ else
     )
 fi
 
-# brotli 디렉토리 확인
-if [ ! -d "${BROTLI_DIR}" ]; then
-    echo "Error: brotli submodule이 없습니다. 'git submodule update --init --recursive'를 실행하세요."
-    exit 1
-fi
 
 # 빌드 함수
 build_target() {
@@ -98,24 +93,19 @@ build_target() {
 
         CMAKE_ARGS+=(
             -DCMAKE_C_COMPILER=clang
-            -DCMAKE_CXX_COMPILER=clang++
             -DCMAKE_C_FLAGS="${CCFLAGS}"
-            -DCMAKE_CXX_FLAGS="${CCFLAGS}"
             -DBUILD_SHARED_LIBS=OFF
         )
     elif [ "$TARGET" != "native" ]; then
         CMAKE_ARGS+=(
             -DBROTLI_BUILD_FOR_PACKAGE=ON
             -DCMAKE_C_COMPILER=clang
-            -DCMAKE_CXX_COMPILER=clang++
             -DCMAKE_C_FLAGS="--target=${TARGET}"
-            -DCMAKE_CXX_FLAGS="--target=${TARGET}"
         )
     elif [ "${OS}" != "Windows_NT" ] && [ -z "${MSYSTEM}" ]; then
         # Windows가 아닐 때만 clang 설정
         CMAKE_ARGS+=(
             -DCMAKE_C_COMPILER=clang
-            -DCMAKE_CXX_COMPILER=clang++
             -DBROTLI_BUILD_FOR_PACKAGE=ON
         )
     else

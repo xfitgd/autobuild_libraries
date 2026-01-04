@@ -49,11 +49,6 @@ else
     )
 fi
 
-# bzip2 디렉토리 확인
-if [ ! -d "${BZIP2_DIR}" ]; then
-    echo "Error: bzip2 submodule이 없습니다. 'git submodule update --init --recursive'를 실행하세요."
-    exit 1
-fi
 
 # 빌드 함수
 build_target() {
