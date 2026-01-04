@@ -32,27 +32,6 @@ if [ ! -d "${FREETYPE_DIR}" ]; then
     exit 1
 fi
 
-# freetype CMakeLists.txt 패치: BZip2::BZip2를 직접 라이브러리 경로로 대체
-FREETYPE_CMAKE="${FREETYPE_DIR}/CMakeLists.txt"
-if [ -f "${FREETYPE_CMAKE}" ]; then
-    # 백업 생성
-    if [ ! -f "${FREETYPE_CMAKE}.backup" ]; then
-        cp "${FREETYPE_CMAKE}" "${FREETYPE_CMAKE}.backup"
-    fi
-    
-    # BZip2::BZip2를 직접 라이브러리 경로로 대체
-    awk '
-    /target_link_libraries\(freetype PRIVATE BZip2::BZip2\)/ {
-        print "  target_link_libraries(freetype PRIVATE ${BZIP2_LIBRARIES})"
-        print "  target_include_directories(freetype PRIVATE ${BZIP2_INCLUDE_DIR})"
-        next
-    }
-    { print }
-    ' "${FREETYPE_CMAKE}" > "${FREETYPE_CMAKE}.tmp" && mv "${FREETYPE_CMAKE}.tmp" "${FREETYPE_CMAKE}"
-    
-    echo "freetype CMakeLists.txt 패치 완료"
-fi
-
 # 빌드 함수
 build_target() {
     local TARGET=$1

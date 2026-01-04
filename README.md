@@ -12,21 +12,6 @@ A project for automatically building multiple libraries with cross-compilation s
 
 ## Getting Started
 
-### 1. Git Submodule Setup
-
-After cloning the project, initialize the submodules:
-
-```bash
-# Method 1: Use the automatic script
-chmod +x setup_submodules.sh
-./setup_submodules.sh
-
-# Method 2: Manual execution
-git submodule update --init --recursive
-```
-
-### 2. Building Libraries
-
 #### Building libz (zlib)
 
 **Cross-compilation (default)**:
