@@ -19,6 +19,7 @@ jobs:
 
     - name: Setup MSVC
       uses: microsoft/setup-msbuild@v2
+      uses: ilammy/msvc-dev-cmd@v1.13.0
 
     - name: Build libz (native)
       shell: bash
@@ -68,8 +69,6 @@ jobs:
         chmod +x build_opusfile.sh
         ./build_opusfile.sh --native
 
-    - uses: actions/checkout@v4
-    - uses: ilammy/msvc-dev-cmd@v1
     - name: Build miniaudio (native)
       shell: bash
       run: |
