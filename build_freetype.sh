@@ -88,6 +88,8 @@ build_target() {
         if [ -d "${BROTLI_LIB_DIR}" ]; then
             CMAKE_ARGS+=(
                 -DBROTLIDEC_LIBRARIES="${BROTLI_LIB_DIR}/libbrotlidec-static.a"
+                -DBROTLIENC_LIBRARIES="${BROTLI_LIB_DIR}/libbrotlienc-static.a"
+                -DBROTLICOMMON_LIBRARIES="${BROTLI_LIB_DIR}/libbrotlicommon-static.a"
                 -DBROTLIDEC_INCLUDE_DIRS="${SCRIPT_DIR}/install/brotli/${TARGET}/include"
             )
         fi
@@ -107,6 +109,8 @@ build_target() {
         if [ -d "${BROTLI_LIB_DIR}" ]; then
             CMAKE_ARGS+=(
                 -DBROTLIDEC_LIBRARIES="${BROTLI_LIB_DIR}/brotlidec-static.lib"
+                -DBROTLIENC_LIBRARIES="${BROTLI_LIB_DIR}/brotlienc-static.lib"
+                -DBROTLICOMMON_LIBRARIES="${BROTLI_LIB_DIR}/brotlicommon-static.lib"
                 -DBROTLIDEC_INCLUDE_DIRS="${SCRIPT_DIR}/install/brotli/${TARGET}/include"
             )
         fi
