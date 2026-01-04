@@ -55,7 +55,6 @@ build_target() {
     ZLIB_LIB_DIR="${SCRIPT_DIR}/install/libz/${TARGET}/lib"
     BZIP2_LIB_DIR="${SCRIPT_DIR}/install/bzip2/${TARGET}/lib"
     BROTLI_LIB_DIR="${SCRIPT_DIR}/install/brotli/${TARGET}/lib"
-    HARFBUZZ_LIB_DIR="${SCRIPT_DIR}/install/harfbuzz/${TARGET}/lib"
     
     # CMake 설정
     CMAKE_ARGS=(
@@ -89,12 +88,6 @@ build_target() {
         CMAKE_ARGS+=(
             -DBROTLIDEC_LIBRARIES="${BROTLI_LIB_DIR}/libbrotlidec.a"
             -DBROTLIDEC_INCLUDE_DIRS="${SCRIPT_DIR}/install/brotli/${TARGET}/include"
-        )
-    fi
-    if [ -d "${HARFBUZZ_LIB_DIR}" ]; then
-        CMAKE_ARGS+=(
-            -DHarfBuzz_LIBRARIES="${HARFBUZZ_LIB_DIR}/libharfbuzz.a"
-            -DHarfBuzz_INCLUDE_DIR="${SCRIPT_DIR}/install/harfbuzz/${TARGET}/include"
         )
     fi
     
