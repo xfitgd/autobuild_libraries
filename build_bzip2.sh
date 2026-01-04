@@ -76,7 +76,7 @@ build_target() {
     else
         # Windows에서는 MSVC 사용, /MT 플래그 추가
         CMAKE_ARGS+=(
-            -DCMAKE_C_FLAGS="/MT"
+            -DCMAKE_MSVC_RUNTIME_LIBRARY="MultiThreaded"
         )
     fi
     
