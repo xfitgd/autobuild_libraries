@@ -68,6 +68,8 @@ jobs:
         chmod +x build_opusfile.sh
         ./build_opusfile.sh --native
 
+    - uses: actions/checkout@v4
+    - uses: ilammy/msvc-dev-cmd@v1
     - name: Build miniaudio (native)
       shell: bash
       run: |
