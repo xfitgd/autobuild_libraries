@@ -19,6 +19,8 @@ jobs:
 
     - name: Setup MSVC
       uses: microsoft/setup-msbuild@v2
+
+    - name: Setup MSVC Dev Cmd
       uses: ilammy/msvc-dev-cmd@v1.13.0
 
     - name: Build libz (native)
