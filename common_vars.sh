@@ -11,11 +11,17 @@ NDK_API_LEVEL="35"
 NATIVE_ONLY=false
 ANDROID_ONLY=false
 
-# 빌드 타겟 목록
-TARGETS=(
+# Linux 빌드 타겟 목록
+LINUX_TARGETS=(
     "aarch64-linux-gnu"
     "riscv64-linux-gnu"
     "x86_64-linux-gnu"
+)
+
+# Windows 빌드 타겟 목록
+WINDOWS_TARGETS=(
+    "x86_64-windows-msvc"
+    "aarch64-windows-msvc"
 )
 
 # Android 타겟 목록
@@ -41,11 +47,16 @@ parse_build_args() {
     if [ "$1" == "--native" ] || [ "$1" == "-n" ]; then
         NATIVE_ONLY=true
         echo "네이티브 빌드 모드로 실행합니다."
-        TARGETS=("native")
+        LINUX_TARGETS=("native")
+        WINDOWS_TARGETS=("native")
         ANDROIDS=()
         ANDROID_ARCH=()
     elif [ "$1" == "--android" ] || [ "$1" == "-a" ]; then
         ANDROID_ONLY=true
         echo "Android 빌드 모드로 실행합니다."
+    elif [ -n "$1" ]; then
+        echo "오류: 알 수 없는 플래그: $1" >&2
+        echo "사용 가능한 플래그: --native (-n), --android (-a)" >&2
+        exit 1
     fi
 }

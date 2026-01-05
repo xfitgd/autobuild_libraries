@@ -49,7 +49,6 @@ build_target() {
         fi
 
         CMAKE_ARGS+=(
-            -DCMAKE_C_COMPILER=clang
             -DCMAKE_C_FLAGS="${CCFLAGS}"
             -DENABLE_SHARED_LIB=OFF
             -DENABLE_STATIC_LIB=ON
@@ -58,22 +57,24 @@ build_target() {
         CMAKE_ARGS+=(
             -DENABLE_SHARED_LIB=ON
             -DENABLE_STATIC_LIB=ON
-            -DCMAKE_C_COMPILER=clang
             -DCMAKE_C_FLAGS="--target=${TARGET}"
         )
-    elif [ "${OS}" != "Windows_NT" ] && [ -z "${MSYSTEM}" ]; then
-        # Windows가 아닐 때만 clang 설정
+    else
         CMAKE_ARGS+=(
             -DENABLE_SHARED_LIB=ON
             -DENABLE_STATIC_LIB=ON
-            -DCMAKE_C_COMPILER=clang
         )
-    else
+    fi
+    
+    if [ "${OS}" == "Windows_NT" ]; then
         # Windows에서는 MSVC 사용, /MT 플래그 추가
         CMAKE_ARGS+=(
-            -DENABLE_SHARED_LIB=ON
-            -DENABLE_STATIC_LIB=ON
             -DCMAKE_MSVC_RUNTIME_LIBRARY="MultiThreaded"
+        )
+    else
+        # Windows가 아닐 때만 clang 설정
+        CMAKE_ARGS+=(
+            -DCMAKE_C_COMPILER=clang
         )
     fi
     
@@ -99,8 +100,18 @@ if [ "$ANDROID_ONLY" = true ]; then
         
         build_target "${TARGET}" "${ANDROID_ARCH[$i]}"
     done
+elif [ "${OS}" == "Windows_NT" ] || [ -n "${MSYSTEM}" ]; then
+    # Windows 환경에서는 WINDOWS_TARGETS 사용
+    for TARGET in "${WINDOWS_TARGETS[@]}"; do
+        echo "=========================================="
+        echo "타겟: ${TARGET}"
+        echo "=========================================="
+        
+        build_target "${TARGET}" ""
+    done
 else
-    for TARGET in "${TARGETS[@]}"; do
+    # Linux 환경에서는 LINUX_TARGETS 사용
+    for TARGET in "${LINUX_TARGETS[@]}"; do
         echo "=========================================="
         echo "타겟: ${TARGET}"
         echo "=========================================="

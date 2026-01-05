@@ -84,7 +84,6 @@ build_target() {
         fi
 
         CMAKE_ARGS+=(
-            -DCMAKE_C_COMPILER=clang
             -DCMAKE_C_FLAGS="${CCFLAGS}"
             -DBUILD_SHARED_LIBS=OFF
         )
@@ -138,18 +137,19 @@ build_target() {
         # Windows가 아닐 때만 clang 설정 (Windows에서는 MSVC 사용)
         if [ "$TARGET" != "native" ]; then
             CMAKE_ARGS+=(
-                -DCMAKE_C_COMPILER=clang
                 -DCMAKE_C_FLAGS="--target=${TARGET}"
             )
-        elif [ "${OS}" != "Windows_NT" ] && [ -z "${MSYSTEM}" ]; then
-            # Windows가 아닐 때만 clang 설정
-            CMAKE_ARGS+=(
-                -DCMAKE_C_COMPILER=clang
-            )
-        else
+        fi
+        
+        if [ "${OS}" == "Windows_NT" ]; then
             # Windows에서는 MSVC 사용, /MT 플래그 추가
             CMAKE_ARGS+=(
                 -DCMAKE_MSVC_RUNTIME_LIBRARY="MultiThreaded"
+            )
+        else
+            # Windows가 아닐 때만 clang 설정
+            CMAKE_ARGS+=(
+                -DCMAKE_C_COMPILER=clang
             )
         fi
     fi
@@ -177,8 +177,22 @@ if [ "$ANDROID_ONLY" = true ]; then
         # Android일 때는 static만 빌드
         build_target "${TARGET}" "static" "OFF" "${ANDROID_ARCH[$i]}"
     done
+elif [ "${OS}" == "Windows_NT" ] || [ -n "${MSYSTEM}" ]; then
+    # Windows 환경에서는 WINDOWS_TARGETS 사용
+    for TARGET in "${WINDOWS_TARGETS[@]}"; do
+        echo "=========================================="
+        echo "타겟: ${TARGET}"
+        echo "=========================================="
+        
+        # 공유 라이브러리 빌드
+        build_target "${TARGET}" "shared" "ON" ""
+        
+        # 정적 라이브러리 빌드
+        build_target "${TARGET}" "static" "OFF" ""
+    done
 else
-    for TARGET in "${TARGETS[@]}"; do
+    # Linux 환경에서는 LINUX_TARGETS 사용
+    for TARGET in "${LINUX_TARGETS[@]}"; do
         echo "=========================================="
         echo "타겟: ${TARGET}"
         echo "=========================================="
