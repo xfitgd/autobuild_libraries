@@ -136,9 +136,15 @@ build_target() {
         # 크로스 컴파일 설정
         # Windows가 아닐 때만 clang 설정 (Windows에서는 MSVC 사용)
         if [ "$TARGET" != "native" ]; then
-            CMAKE_ARGS+=(
-                -DCMAKE_C_FLAGS="--target=${TARGET}"
-            )
+            if [ "${OS}" == "Windows_NT" ]; then
+                CMAKE_ARGS+=(
+                    -DCMAKE_C_FLAGS="-arch ${TARGET}"
+                )
+            else
+                CMAKE_ARGS+=(
+                    -DCMAKE_C_FLAGS="--target=${TARGET}"
+                )
+            fi
         fi
         
         if [ "${OS}" == "Windows_NT" ]; then

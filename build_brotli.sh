@@ -56,8 +56,16 @@ build_target() {
     elif [ "$TARGET" != "native" ]; then
         CMAKE_ARGS+=(
             -DBROTLI_BUILD_FOR_PACKAGE=ON
-            -DCMAKE_C_FLAGS="--target=${TARGET}"
         )
+         if [ "${OS}" == "Windows_NT" ]; then
+             CMAKE_ARGS+=(
+                -DCMAKE_C_FLAGS="-arch ${TARGET}"
+            )
+        else
+            CMAKE_ARGS+=(
+                -DCMAKE_C_FLAGS="--target=${TARGET}"
+            )
+        fi
     else
         CMAKE_ARGS+=(
             -DBROTLI_BUILD_FOR_PACKAGE=ON

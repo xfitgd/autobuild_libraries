@@ -59,6 +59,15 @@ build_target() {
             -DENABLE_STATIC_LIB=ON
             -DCMAKE_C_FLAGS="--target=${TARGET}"
         )
+        if [ "${OS}" == "Windows_NT" ]; then
+             CMAKE_ARGS+=(
+                -DCMAKE_C_FLAGS="-arch ${TARGET}"
+            )
+        else
+            CMAKE_ARGS+=(
+                -DCMAKE_C_FLAGS="--target=${TARGET}"
+            )
+        fi
     else
         CMAKE_ARGS+=(
             -DENABLE_SHARED_LIB=ON

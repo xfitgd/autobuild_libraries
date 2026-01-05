@@ -20,8 +20,8 @@ LINUX_TARGETS=(
 
 # Windows 빌드 타겟 목록
 WINDOWS_TARGETS=(
-    "x86_64-windows-msvc"
-    "aarch64-windows-msvc"
+    "x64"
+    "ARM64"
 )
 
 # Android 타겟 목록

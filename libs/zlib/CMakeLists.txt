@@ -297,20 +297,20 @@ if(ZLIB_INSTALL)
         FILES ${ZLIB_PUBLIC_HDRS}
         COMPONENT Development
         DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}")
-    install(
-        FILES zlib.3
-        COMPONENT Docs
-        DESTINATION "${CMAKE_INSTALL_MANDIR}/man3")
-    install(
-        FILES LICENSE
-              doc/algorithm.txt
-              doc/crc-doc.1.0.pdf
-              doc/rfc1950.txt
-              doc/rfc1951.txt
-              doc/rfc1952.txt
-              doc/txtvsbin.txt
-        COMPONENT Docs
-        DESTINATION "${CMAKE_INSTALL_DOCDIR}/zlib")
+    # install(
+    #     FILES zlib.3
+    #     COMPONENT Docs
+    #     DESTINATION "${CMAKE_INSTALL_MANDIR}/man3")
+    # install(
+    #     FILES LICENSE
+    #           doc/algorithm.txt
+    #           doc/crc-doc.1.0.pdf
+    #           doc/rfc1950.txt
+    #           doc/rfc1951.txt
+    #           doc/rfc1952.txt
+    #           doc/txtvsbin.txt
+    #     COMPONENT Docs
+    #     DESTINATION "${CMAKE_INSTALL_DOCDIR}/zlib")
     install(
         FILES ${ZLIB_PC}
         COMPONENT Development
