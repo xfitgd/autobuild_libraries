@@ -8,6 +8,7 @@ openexr_define_library(Imath
     half.cpp
     ImathFun.cpp
     ImathMatrixAlgo.cpp
+    ImathColorAlgo.cpp
     ImathRandom.cpp
     toFloat.cpp
   HEADERS
