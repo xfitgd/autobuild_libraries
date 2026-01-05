@@ -21,8 +21,7 @@ LINUX_TARGETS=(
 
 # Windows 빌드 타겟 목록
 WINDOWS_TARGETS=(
-    "x64"
-    "ARM64"
+    "native"
 )
 
 # Android 타겟 목록
@@ -52,13 +51,8 @@ parse_build_args() {
     elif [ "$1" == "--android" ] || [ "$1" == "-a" ]; then
         ANDROID_ONLY=true
         echo "Android 빌드 모드로 실행합니다."
-    elif [ "$1" == "--windows_amd64" ] || [ "$1" == "-w64" ]; then
-        echo "Windows x64 빌드 모드로 실행합니다."
-        WINDOWS_TARGETS=("x64")
-        WINDOWS_ONLY=true
-    elif [ "$1" == "--windows_amd64_arm64" ] || [ "$1" == "-wa64" ]; then
-        echo "Windows ARM64 빌드 모드로 실행합니다."
-        WINDOWS_TARGETS=("ARM64")
+    elif [ "$1" == "--windows" ] || [ "$1" == "-w" ]; then
+        echo "Windows 빌드 모드로 실행합니다."
         WINDOWS_ONLY=true
     elif [ -n "$1" ]; then
         echo "오류: 알 수 없는 플래그: $1" >&2
