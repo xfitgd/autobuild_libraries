@@ -2,7 +2,21 @@
 # Copyright (c) Contributors to the OpenEXR Project.
 
 # We require this to get object library link library support
-cmake_minimum_required(VERSION 3.14)
+cmake_minimum_required(VERSION 3.15)
+
+if (NOT WIN32) 
+link_libraries(m)
+endif()
+
+include_directories(external/Imath/src/Imath)
+set(IMATH_CPPS
+  ../../../external/Imath/src/Imath/half.cpp
+  ../../../external/Imath/src/Imath/ImathFun.cpp
+  ../../../external/Imath/src/Imath/ImathMatrixAlgo.cpp
+  ../../../external/Imath/src/Imath/ImathRandom.cpp
+  ../../../external/Imath/src/Imath/toFloat.cpp
+  ../../../external/Imath/src/Imath/ImathColorAlgo.cpp
+)
 
 if(POLICY CMP0074)
   # enable find_package(<Package>) to use <Package>_ROOT as a hint

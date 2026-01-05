@@ -315,73 +315,22 @@ endif()
 
 option(OPENEXR_FORCE_INTERNAL_IMATH "Force using an internal imath" OFF)
 # Check to see if Imath is installed outside of the current build directory.
-set(OPENEXR_IMATH_REPO "https://github.com/AcademySoftwareFoundation/Imath.git" CACHE STRING "Repo for auto-build of Imath")
-set(OPENEXR_IMATH_TAG "main" CACHE STRING "Tag for auto-build of Imath (branch, tag, or SHA)")
-if(NOT OPENEXR_FORCE_INTERNAL_IMATH)
-  #TODO: ^^ Release should not clone from main, this is a place holder
-  set(CMAKE_IGNORE_PATH "${CMAKE_CURRENT_BINARY_DIR}/_deps/imath-src/config;${CMAKE_CURRENT_BINARY_DIR}/_deps/imath-build/config")
-  find_package(Imath 3.1 CONFIG QUIET)
-  set(CMAKE_IGNORE_PATH)
-endif()
+# set(OPENEXR_IMATH_REPO "https://github.com/AcademySoftwareFoundation/Imath.git" CACHE STRING "Repo for auto-build of Imath")
+# set(OPENEXR_IMATH_TAG "main" CACHE STRING "Tag for auto-build of Imath (branch, tag, or SHA)")
+# if(NOT OPENEXR_FORCE_INTERNAL_IMATH)
+#   #TODO: ^^ Release should not clone from main, this is a place holder
+#   set(CMAKE_IGNORE_PATH "${CMAKE_CURRENT_BINARY_DIR}/_deps/imath-src/config;${CMAKE_CURRENT_BINARY_DIR}/_deps/imath-build/config")
+#   find_package(Imath 3.1 CONFIG QUIET)
+#   set(CMAKE_IGNORE_PATH)
+# endif()
 
-if(NOT TARGET Imath::Imath AND NOT Imath_FOUND)
-  if(OPENEXR_FORCE_INTERNAL_IMATH)
-    message(STATUS "Imath forced internal, fetching from ${OPENEXR_IMATH_REPO} @ ${OPENEXR_IMATH_TAG}")
-  else()
-    message(STATUS "Imath was not found, fetching from ${OPENEXR_IMATH_REPO} @ ${OPENEXR_IMATH_TAG}")
-  endif()
-  include(FetchContent)
-  FetchContent_Declare(Imath
-    GIT_REPOSITORY "${OPENEXR_IMATH_REPO}"
-    GIT_TAG "${OPENEXR_IMATH_TAG}"
-    GIT_SHALLOW ON
-      )
-  FetchContent_GetProperties(Imath)
-  if(NOT Imath_POPULATED)
-    FetchContent_MakeAvailable(Imath)
-
-    # Propagate OpenEXR's install setting to Imath
-    set(IMATH_INSTALL ${OPENEXR_INSTALL})
-
-    # Propagate OpenEXR's setting for pkg-config generation to Imath:
-    # If OpenEXR is generating it, the internal Imath should, too.
-    set(IMATH_INSTALL_PKG_CONFIG ${OPENEXR_INSTALL_PKG_CONFIG})
-  endif()
-
-  # extract the imath version variables from ImathConfig.h
-  set(_imath_cfg "${Imath_BINARY_DIR}/config/ImathConfig.h")
-  if(EXISTS "${_imath_cfg}")
-    file(STRINGS "${_imath_cfg}" _ver_line REGEX "IMATH_LIB_VERSION_STRING")
-    string(REGEX REPLACE ".*IMATH_LIB_VERSION_STRING[ \t]+\"([0-9.]+)\".*" "\\1" IMATH_LIB_VERSION_STRING "${_ver_line}")
-    string(REPLACE "." ";" _ver_list "${IMATH_LIB_VERSION_STRING}")
-    list(GET _ver_list 0 Imath_SOVERSION)
-    list(GET _ver_list 1 Imath_VERSION_MAJOR)
-    list(GET _ver_list 2 Imath_VERSION_MINOR)
-    list(GET _ver_list 3 Imath_VERSION_PATCH)
-  endif()
-  
-  # the install creates this but if we're using the library locally we
-  # haven't installed the header files yet, so need to extract those
-  # and make a variable for header only usage
-  if(NOT TARGET Imath::ImathConfig)
-    get_target_property(imathinc Imath INTERFACE_INCLUDE_DIRECTORIES)
-    get_target_property(imathconfinc ImathConfig INTERFACE_INCLUDE_DIRECTORIES)
-    list(APPEND imathinc ${imathconfinc})
-    set(IMATH_HEADER_ONLY_INCLUDE_DIRS ${imathinc})
-  endif()
-else()
-  message(STATUS "Using Imath ${Imath_VERSION} from ${Imath_DIR}")
-  # local build
-  # add_subdirectory(${IMATH_ROOT} Imath)
-  # add_subdirectory(${OPENEXR_ROOT} OpenEXR)
-  if(NOT TARGET Imath::ImathConfig AND TARGET Imath AND TARGET ImathConfig)
-    get_target_property(imathinc Imath INTERFACE_INCLUDE_DIRECTORIES)
-    get_target_property(imathconfinc ImathConfig INTERFACE_INCLUDE_DIRECTORIES)
-    list(APPEND imathinc ${imathconfinc})
-    set(IMATH_HEADER_ONLY_INCLUDE_DIRS ${imathinc})
-    message(STATUS "Imath interface dirs ${IMATH_HEADER_ONLY_INCLUDE_DIRS}")
-  endif()
-endif()
+# if(NOT TARGET Imath::Imath AND NOT Imath_FOUND)
+#   if(OPENEXR_FORCE_INTERNAL_IMATH)
+#     message(STATUS "Imath forced internal")
+#   else()
+#     message(STATUS "Imath was not found")
+#   endif()
+# endif()
 
 ###########################################
 # Check if we need to emulate vld1q_f32_x2
