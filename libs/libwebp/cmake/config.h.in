@@ -2,7 +2,7 @@
 
 /* Define if building universal (internal helper macro) */
 /* TODO: handle properly in CMake */
-#cmakedefine AC_APPLE_UNIVERSAL_BUILD 0
+#cmakedefine AC_APPLE_UNIVERSAL_BUILD
 
 /* Set to 1 if __builtin_bswap16 is available */
 #cmakedefine HAVE_BUILTIN_BSWAP16 1
@@ -32,7 +32,7 @@
 #cmakedefine HAVE_UNISTD_H 1
 
 /* Define to 1 if you have the <wincodec.h> header file. */
-#cmakedefine HAVE_WINCODEC_H 0
+#cmakedefine HAVE_WINCODEC_H
 
 /* Define to 1 if you have the <windows.h> header file. */
 #cmakedefine HAVE_WINDOWS_H 0
@@ -67,13 +67,13 @@
 #cmakedefine VERSION "@VERSION@"
 
 /* Set to 1 if GIF library is installed */
-#cmakedefine WEBP_HAVE_GIF 0
+#cmakedefine WEBP_HAVE_GIF
 
 /* Set to 1 if OpenGL is supported */
 #cmakedefine WEBP_HAVE_GL 1
 
 /* Set to 1 if JPEG library is installed */
-#cmakedefine WEBP_HAVE_JPEG 0
+#cmakedefine WEBP_HAVE_JPEG
 
 /* Set to 1 if NEON is supported */
 #cmakedefine WEBP_HAVE_NEON
@@ -83,10 +83,10 @@
 #cmakedefine WEBP_HAVE_NEON_RTCD
 
 /* Set to 1 if PNG library is installed */
-#cmakedefine WEBP_HAVE_PNG 0
+#cmakedefine WEBP_HAVE_PNG
 
 /* Set to 1 if SDL library is installed */
-#cmakedefine WEBP_HAVE_SDL 0
+#cmakedefine WEBP_HAVE_SDL
 
 /* Set to 1 if SSE2 is supported */
 #cmakedefine WEBP_HAVE_SSE2 1
@@ -98,7 +98,7 @@
 #cmakedefine WEBP_HAVE_AVX2 1
 
 /* Set to 1 if TIFF library is installed */
-#cmakedefine WEBP_HAVE_TIFF 0
+#cmakedefine WEBP_HAVE_TIFF
 
 /* Enable near lossless encoding */
 #cmakedefine WEBP_NEAR_LOSSLESS 1
