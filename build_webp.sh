@@ -23,7 +23,7 @@ build_target() {
     echo "----------------------------------------"
     
     BUILD_DIR="${SCRIPT_DIR}/build/webp/${TARGET}-${BUILD_TYPE}"
-    INSTALL_DIR="${SCRIPT_DIR}/install/webp/${TARGET}"
+    INSTALL_DIR="${SCRIPT_DIR}/install/webp/${TARGET}-${BUILD_TYPE}"
     
     # 빌드 디렉토리 생성
     mkdir -p "${BUILD_DIR}"

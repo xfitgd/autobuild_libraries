@@ -24,7 +24,7 @@ build_target() {
     echo "----------------------------------------"
     
     BUILD_DIR="${SCRIPT_DIR}/build/freetype/${TARGET}-${BUILD_TYPE}"
-    INSTALL_DIR="${SCRIPT_DIR}/install/freetype/${TARGET}"
+    INSTALL_DIR="${SCRIPT_DIR}/install/freetype/${TARGET}-${BUILD_TYPE}"
     
     # 빌드 디렉토리 생성
     mkdir -p "${BUILD_DIR}"
