@@ -275,7 +275,7 @@ foreach(FILE ${WEBP_SIMD_FILES_NOT_TO_INCLUDE})
   list(REMOVE_ITEM WEBP_DSP_DEC_SRCS ${FILE})
 endforeach()
 
-# Generate the config.h file.
+
 if (WIN32)
   configure_file(${CMAKE_CURRENT_LIST_DIR}/cmake/config_win.h.in
                   ${CMAKE_CURRENT_BINARY_DIR}/src/webp/config.h @ONLY)

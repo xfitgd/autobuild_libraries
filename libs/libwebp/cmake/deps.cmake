@@ -10,6 +10,7 @@
 
 # Check for compiler options.
 include(CheckCSourceCompiles)
+if (NOT WIN32)
 check_c_source_compiles(
   "
     int main(void) {
@@ -34,6 +35,7 @@ check_c_source_compiles(
     }
   "
   HAVE_BUILTIN_BSWAP64)
+endif()
 
 # Check for libraries.
 if(WEBP_USE_THREAD)
