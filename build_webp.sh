@@ -30,6 +30,7 @@ build_target() {
     mkdir -p "${INSTALL_DIR}"
     
     cd "${BUILD_DIR}"
+
     
     # CMake 설정
     CMAKE_ARGS=(
@@ -81,6 +82,7 @@ build_target() {
         CMAKE_ARGS+=(
             -DCMAKE_MSVC_RUNTIME_LIBRARY="MultiThreaded"
         )
+        
     else
         # Windows가 아닐 때만 clang 설정
         CMAKE_ARGS+=(
