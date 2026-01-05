@@ -90,8 +90,6 @@ openexr_define_library(OpenEXRCore
     validation.c
 
     debug.c
-    
-    ${IMATH_CPPS}
   HEADERS
     openexr.h
 
@@ -114,7 +112,7 @@ openexr_define_library(OpenEXRCore
     ${OPENEXR_EXTRA_MATH_LIB}
 
   DEPENDENCIES
-    #Imath::Imath
+    OpenEXR::Imath
   )
 
 if (DEFINED EXR_DEFLATE_LIB)

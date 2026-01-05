@@ -8,15 +8,7 @@ if (NOT WIN32)
 link_libraries(m)
 endif()
 
-include_directories(external/Imath/src/Imath)
-set(IMATH_CPPS
-  ../../../external/Imath/src/Imath/half.cpp
-  ../../../external/Imath/src/Imath/ImathFun.cpp
-  ../../../external/Imath/src/Imath/ImathMatrixAlgo.cpp
-  ../../../external/Imath/src/Imath/ImathRandom.cpp
-  ../../../external/Imath/src/Imath/toFloat.cpp
-  ../../../external/Imath/src/Imath/ImathColorAlgo.cpp
-)
+include_directories(src/lib/Imath)
 
 if(POLICY CMP0074)
   # enable find_package(<Package>) to use <Package>_ROOT as a hint

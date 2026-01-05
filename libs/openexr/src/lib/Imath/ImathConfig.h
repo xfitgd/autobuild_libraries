@@ -24,18 +24,18 @@
 // C++ namespace configuration / options
 
 #define IMATH_INTERNAL_NAMESPACE_CUSTOM 0
-#define IMATH_INTERNAL_NAMESPACE Imath_3_1
+#define IMATH_INTERNAL_NAMESPACE Imath_3_2
 #define IMATH_NAMESPACE_CUSTOM 0
 #define IMATH_NAMESPACE Imath
 
 
-#define IMATH_VERSION_STRING "3.1.9"
+#define IMATH_VERSION_STRING "3.22"
 #define IMATH_PACKAGE_STRING "Imath"
 #define IMATH_VERSION_MAJOR 3
-#define IMATH_VERSION_MINOR 1
-#define IMATH_VERSION_PATCH 9
+#define IMATH_VERSION_MINOR 2
+#define IMATH_VERSION_PATCH 2
 #define IMATH_VERSION_RELEASE_TYPE ""
-#define IMATH_LIB_VERSION_STRING "99.3.1.9"
+#define IMATH_LIB_VERSION_STRING "30.3.2.2"
 
 #define IMATH_VERSION_HEX                                                      \
     ((uint32_t (IMATH_VERSION_MAJOR) << 24) |                                  \

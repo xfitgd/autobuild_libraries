@@ -125,7 +125,6 @@ openexr_define_library(OpenEXR
     ImfZip.h
     ImfZipCompressor.cpp
     ImfZipCompressor.h
-    ${IMATH_CPPS}
   HEADERS
     ImfAcesFile.h
     ImfArray.h
@@ -222,7 +221,7 @@ openexr_define_library(OpenEXR
     ImfWav.h
     ImfXdr.h
   DEPENDENCIES
-    #Imath::Imath
+    OpenEXR::Imath
     OpenEXR::Config
     OpenEXR::Iex
     OpenEXR::IlmThread
