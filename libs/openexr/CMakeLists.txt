@@ -4,9 +4,6 @@
 # We require this to get object library link library support
 cmake_minimum_required(VERSION 3.15)
 
-if (NOT WIN32) 
-link_libraries(m)
-endif()
 
 include_directories(src/lib/Imath)
 

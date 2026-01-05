@@ -11,6 +11,7 @@ openexr_define_library(Imath
     ImathRandom.cpp
     toFloat.cpp
   HEADERS
+  PRIVATE_DEPS
+    ${OPENEXR_EXTRA_MATH_LIB}
   DEPENDENCIES
-    OpenEXR::Config
   )
