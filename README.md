@@ -25,6 +25,7 @@ A project for automatically building multiple libraries with cross-compilation s
 
 ### Misc
 - **lua**: Script Programming language
+- **glslang**: Shader Compilation library.
 
 ## Getting Started
 
@@ -47,11 +48,6 @@ Built libraries are installed in the `install/libz/<target>/` directory.
 
 etc...
 
-**Note**: 
-- Build libz, bzip2, and brotli before building freetype.
-- Build libogg before building libvorbis.
-- Build libogg and opus before building opusfile.
-- Build all audio libraries (ogg, opus, vorbis, opusfile) before using miniaudio.
 
 ## Build Options
 
