@@ -11,20 +11,15 @@ GLSLANG_DIR="${SCRIPT_DIR}/libs/glslang"
 # 빌드 함수
 build_target() {
     local TARGET=$1
-    local BUILD_TYPE=$2
     local ANDROID_ARCH=$3
 
-    BUILD_SHARED_STATIC="OFF"
-    if [ "$BUILD_TYPE" = "shared" ]; then
-        BUILD_SHARED_STATIC="ON"
-    fi
 
     echo "----------------------------------------"
-    echo "빌드 중: ${TARGET} ${BUILD_TYPE}"
+    echo "빌드 중: ${TARGET}"
     echo "----------------------------------------"
     
-    BUILD_DIR="${SCRIPT_DIR}/build/glslang/${TARGET}-${BUILD_TYPE}"
-    INSTALL_DIR="${SCRIPT_DIR}/install/glslang/${TARGET}-${BUILD_TYPE}"
+    BUILD_DIR="${SCRIPT_DIR}/build/glslang/${TARGET}"
+    INSTALL_DIR="${SCRIPT_DIR}/install/glslang/${TARGET}"
     
     # 빌드 디렉토리 생성
     mkdir -p "${BUILD_DIR}"
@@ -42,8 +37,13 @@ build_target() {
         -DENABLE_GLSLANG_JS=OFF
         -DGLSLANG_TESTS_DEFAULT=OFF
         -DGLSLANG_TESTS=OFF
-        -DENABLE_OPT=OFF
+        -DENABLE_OPT=ON
         -DENABLE_PCH=OFF
+        -DENABLE_SPIRV=ON
+        -DENABLE_HLSL=ON
+        -DSPIRV_SKIP_EXECUTABLES=ON
+        -DBUILD_SHARED_LIBS=OFF
+        -DSPIRV_TOOLS_BUILD_STATIC=ON
     )
 
     if [ "$ANDROID_ONLY" = true ]; then
@@ -58,6 +58,7 @@ build_target() {
         fi
 
         CMAKE_ARGS+=(
+            -DANDROID=ON
             -DCMAKE_C_FLAGS="${CCFLAGS}"
             -DCMAKE_CXX_FLAGS="${CCFLAGS}"
             -DBUILD_SHARED_LIBS=OFF
@@ -67,11 +68,6 @@ build_target() {
         CMAKE_ARGS+=(
             -DCMAKE_C_FLAGS="--target=${TARGET}"
             -DCMAKE_CXX_FLAGS="--target=${TARGET}"
-            -DBUILD_SHARED_LIBS=${BUILD_SHARED_STATIC}
-        )
-    else
-        CMAKE_ARGS+=(
-            -DBUILD_SHARED_LIBS=${BUILD_SHARED_STATIC}
         )
     fi
     
@@ -108,7 +104,7 @@ if [ "$ANDROID_ONLY" = true ]; then
         echo "타겟: ${TARGET} ${ANDROID_ARCH[$i]}"
         echo "=========================================="
         
-        build_target "${TARGET}" "static" "${ANDROID_ARCH[$i]}"
+        build_target "${TARGET}" "${ANDROID_ARCH[$i]}"
     done
 elif [ "$WINDOWS_ONLY" = true ]; then
     for TARGET in "${WINDOWS_TARGETS[@]}"; do
@@ -116,8 +112,7 @@ elif [ "$WINDOWS_ONLY" = true ]; then
         echo "타겟: ${TARGET}"
         echo "=========================================="
         
-        build_target "${TARGET}" "static" ""
-        build_target "${TARGET}" "shared" ""
+        build_target "${TARGET}" ""
     done
 else
     for TARGET in "${LINUX_TARGETS[@]}"; do
@@ -125,7 +120,6 @@ else
         echo "타겟: ${TARGET}"
         echo "=========================================="
         
-        build_target "${TARGET}" "static" ""
-        build_target "${TARGET}" "shared" ""
+        build_target "${TARGET}" ""
     done
 fi
