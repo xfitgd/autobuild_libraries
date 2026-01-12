@@ -69,7 +69,7 @@ build_target() {
         -I"${OPUS_INCLUDE_DIR}" \
         -I"${VORBIS_INCLUDE_DIR}" \
         -I"${OPUSFILE_INCLUDE_DIR}"
-        lib /OUT:libminiaudio.lib miniaudio.obj miniaudio_libopus.obj miniaudio_libvorbis.obj
+        lib /MT /OUT:libminiaudio.lib miniaudio.obj miniaudio_libopus.obj miniaudio_libvorbis.obj
         cp libminiaudio.lib "${INSTALL_DIR}/lib/libminiaudio.lib"
     else
         clang -c miniaudio.c miniaudio_libopus.c miniaudio_libvorbis.c \
