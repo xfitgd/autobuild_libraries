@@ -583,9 +583,15 @@ static ma_decoding_backend_vtable ma_gDecodingBackendVTable_libvorbis =
     NULL, /* onInitMemory() */
     ma_decoding_backend_uninit__libvorbis
 };
-ma_decoding_backend_vtable* ma_decoding_backend_libvorbis = &ma_gDecodingBackendVTable_libvorbis;
+// ma_decoding_backend_vtable* ma_decoding_backend_libvorbis = &ma_gDecodingBackendVTable_libvorbis;
+MA_API ma_decoding_backend_vtable* ma_get_decoding_backend_libvorbis() {
+    return &ma_gDecodingBackendVTable_libvorbis;
+}
 #else
-ma_decoding_backend_vtable* ma_decoding_backend_libvorbis = NULL;
+// ma_decoding_backend_vtable* ma_decoding_backend_libvorbis = NULL;
+MA_API ma_decoding_backend_vtable* ma_get_decoding_backend_libvorbis() {
+    return NULL;
+}
 #endif
 
 #endif /* miniaudio_libvorbis_c */

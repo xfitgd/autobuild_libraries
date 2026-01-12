@@ -528,9 +528,15 @@ static ma_decoding_backend_vtable ma_gDecodingBackendVTable_libopus =
     NULL, /* onInitMemory() */
     ma_decoding_backend_uninit__libopus
 };
-ma_decoding_backend_vtable* ma_decoding_backend_libopus = &ma_gDecodingBackendVTable_libopus;
+// ma_decoding_backend_vtable* ma_decoding_backend_libopus = &ma_gDecodingBackendVTable_libopus;
+MA_API ma_decoding_backend_vtable* ma_get_decoding_backend_libopus() {
+    return &ma_gDecodingBackendVTable_libopus;
+}
 #else
-ma_decoding_backend_vtable* ma_decoding_backend_libopus = NULL;
+// ma_decoding_backend_vtable* ma_decoding_backend_libopus = NULL;
+MA_API ma_decoding_backend_vtable* ma_get_decoding_backend_libopus() {
+    return NULL;
+}
 #endif
 
 #endif  /* miniaudio_libopus_c */

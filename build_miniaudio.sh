@@ -51,9 +51,16 @@ build_target() {
             CCFLAGS+=" -Wl,-z,max-page-size=16384"
         fi
 
-        clang -c miniaudio.c miniaudio_libopus.c miniaudio_libvorbis.c ${CCFLAGS}
-        ar r libminiaudio.a miniaudio.o miniaudio_libopus.o miniaudio_libvorbis.o
+        clang -c miniaudio.c ${CCFLAGS}
+        ar r libminiaudio.a miniaudio.o
+        clang -c miniaudio_libopus.c ${CCFLAGS}
+        ar r libminiaudio_libopus.a miniaudio_libopus.o
+        clang -c miniaudio_libvorbis.c ${CCFLAGS}
+        ar r libminiaudio_libvorbis.a miniaudio_libvorbis.o
+
         cp libminiaudio.a "${INSTALL_DIR}/lib/libminiaudio.a"
+        cp libminiaudio_libopus.a "${INSTALL_DIR}/lib/libminiaudio_libopus.a"
+        cp libminiaudio_libvorbis.a "${INSTALL_DIR}/lib/libminiaudio_libvorbis.a"
     elif [ "$TARGET" != "native" ] && [ "$WINDOWS_ONLY" = false ]; then
         clang -c miniaudio.c miniaudio_libopus.c miniaudio_libvorbis.c \
         -I"${OGG_INCLUDE_DIR}" \
@@ -64,22 +71,27 @@ build_target() {
         ar r libminiaudio.a miniaudio.o miniaudio_libopus.o miniaudio_libvorbis.o
         cp libminiaudio.a "${INSTALL_DIR}/lib/libminiaudio.a"
     elif [ "$WINDOWS_ONLY" = true ]; then
-        cl -c -O2 -MT miniaudio.c miniaudio_libopus.c miniaudio_libvorbis.c \
-        -I"${OGG_INCLUDE_DIR}" \
-        -I"${OPUS_INCLUDE_DIR}" \
-        -I"${VORBIS_INCLUDE_DIR}" \
-        -I"${OPUSFILE_INCLUDE_DIR}"
-        lib /OUT:libminiaudio.lib miniaudio.obj miniaudio_libopus.obj miniaudio_libvorbis.obj
-        cp libminiaudio.lib "${INSTALL_DIR}/lib/libminiaudio.lib"
+        cl -c -O2 -MT miniaudio.c
+        lib /OUT:miniaudio.lib miniaudio.obj
+        cl -c -O2 -MT miniaudio_libopus.c -I"${OGG_INCLUDE_DIR}" -I"${OPUS_INCLUDE_DIR}" -I"${OPUSFILE_INCLUDE_DIR}"
+        lib /OUT:miniaudio_libopus.lib miniaudio_libopus.obj
+        cl -c -O2 -MT miniaudio_libvorbis.c -I"${OGG_INCLUDE_DIR}" -I"${VORBIS_INCLUDE_DIR}"
+        lib /OUT:miniaudio_libvorbis.lib miniaudio_libvorbis.obj
+
+        cp miniaudio.lib "${INSTALL_DIR}/lib/miniaudio.lib"
+        cp miniaudio_libopus.lib "${INSTALL_DIR}/lib/miniaudio_libopus.lib"
+        cp miniaudio_libvorbis.lib "${INSTALL_DIR}/lib/miniaudio_libvorbis.lib"
     else
-        clang -c miniaudio.c miniaudio_libopus.c miniaudio_libvorbis.c \
-        -I"${OGG_INCLUDE_DIR}" \
-        -I"${OPUS_INCLUDE_DIR}" \
-        -I"${VORBIS_INCLUDE_DIR}" \
-        -I"${OPUSFILE_INCLUDE_DIR}" \
-        -fPIC -O3
-        ar r libminiaudio.a miniaudio.o miniaudio_libopus.o miniaudio_libvorbis.o
+        clang -c miniaudio.c -fPIC -O3
+        ar r libminiaudio.a miniaudio.o
+        clang -c miniaudio_libopus.c -fPIC -O3 -I"${OGG_INCLUDE_DIR}" -I"${OPUS_INCLUDE_DIR}" -I"${OPUSFILE_INCLUDE_DIR}"
+        ar r libminiaudio_libopus.a miniaudio_libopus.o
+        clang -c miniaudio_libvorbis.c -fPIC -O3 -I"${OGG_INCLUDE_DIR}" -I"${VORBIS_INCLUDE_DIR}"
+        ar r libminiaudio_libvorbis.a miniaudio_libvorbis.o
+
         cp libminiaudio.a "${INSTALL_DIR}/lib/libminiaudio.a"
+        cp libminiaudio_libopus.a "${INSTALL_DIR}/lib/libminiaudio_libopus.a"
+        cp libminiaudio_libvorbis.a "${INSTALL_DIR}/lib/libminiaudio_libvorbis.a"
     fi
 
     # 정리
