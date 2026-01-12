@@ -11,24 +11,6 @@ echo ""
 # 빌드 인자
 BUILD_ARG="$1"
 
-# 15. glslang 빌드
-"${SCRIPT_DIR}/build_glslang.sh" "${BUILD_ARG}"
-
-# 13. Imath 빌드
-"${SCRIPT_DIR}/build_Imath.sh" "${BUILD_ARG}"
-
-# 14. openexr 빌드 (Imath 의존)
-"${SCRIPT_DIR}/build_openexr.sh" "${BUILD_ARG}"
-
-# 1. libz 빌드
-"${SCRIPT_DIR}/build_libz.sh" "${BUILD_ARG}"
-
-# 2. bzip2 빌드
-"${SCRIPT_DIR}/build_bzip2.sh" "${BUILD_ARG}"
-
-# 3. brotli 빌드
-"${SCRIPT_DIR}/build_brotli.sh" "${BUILD_ARG}"
-
 # 4. ogg 빌드
 "${SCRIPT_DIR}/build_ogg.sh" "${BUILD_ARG}"
 
@@ -46,6 +28,24 @@ BUILD_ARG="$1"
 
 # 9. miniaudio 빌드 (vorbis, opusfile, ogg, opus 의존)
 "${SCRIPT_DIR}/build_miniaudio.sh" "${BUILD_ARG}"
+
+# 15. glslang 빌드
+"${SCRIPT_DIR}/build_glslang.sh" "${BUILD_ARG}"
+
+# 13. Imath 빌드
+"${SCRIPT_DIR}/build_Imath.sh" "${BUILD_ARG}"
+
+# 14. openexr 빌드 (Imath 의존)
+"${SCRIPT_DIR}/build_openexr.sh" "${BUILD_ARG}"
+
+# 1. libz 빌드
+"${SCRIPT_DIR}/build_libz.sh" "${BUILD_ARG}"
+
+# 2. bzip2 빌드
+"${SCRIPT_DIR}/build_bzip2.sh" "${BUILD_ARG}"
+
+# 3. brotli 빌드
+"${SCRIPT_DIR}/build_brotli.sh" "${BUILD_ARG}"
 
 # 10. webp 빌드
 "${SCRIPT_DIR}/build_webp.sh" "${BUILD_ARG}"
