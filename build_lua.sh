@@ -61,9 +61,9 @@ build_target() {
         ${LUA_SEONGJUN_FLAG} \
         -fPIC -O2 -Wall -Wextra -lc -lm -ldl -llog -landroid"
 
-        if [ "$TARGET" == "aarch64-linux-android35" ]; then
-            CCFLAGS+=" -Wl,-z,max-page-size=16384"
-        fi
+        # if [ "$TARGET" == "aarch64-linux-android35" ]; then
+        #     CCFLAGS+=" -Wl,-z,max-page-size=16384"
+        # fi
 
         # 모든 소스 파일 컴파일
         for file in ${BASE_SRC}; do

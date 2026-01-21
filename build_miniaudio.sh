@@ -47,9 +47,9 @@ build_target() {
         -I${OPUSFILE_INCLUDE_DIR} \
         -fPIC -O3 -lc -lm -ldl -llog -landroid"
 
-        if [ "$TARGET" == "aarch64-linux-android35" ]; then
-            CCFLAGS+=" -Wl,-z,max-page-size=16384"
-        fi
+        # if [ "$TARGET" == "aarch64-linux-android35" ]; then
+        #     CCFLAGS+=" -Wl,-z,max-page-size=16384"
+        # fi
 
         clang -c miniaudio.c ${CCFLAGS}
         ar r libminiaudio.a miniaudio.o
