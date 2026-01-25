@@ -394,9 +394,9 @@ add_custom_command(
                       -DSPIRV_LIBRARIES=${SPIRV_LIBRARIES}
                       -P ${CMAKE_CURRENT_SOURCE_DIR}/cmake/write_pkg_config.cmake
         DEPENDS "CHANGES" "${CMAKE_CURRENT_SOURCE_DIR}/cmake/SPIRV-Tools.pc.in" "${CMAKE_CURRENT_SOURCE_DIR}/cmake/write_pkg_config.cmake")
+
 if (NOT ANDROID)
   set(SPIRV_SHARED_LIBRARIES "-lSPIRV-Tools-shared")
-endif()
 add_custom_command(
         OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/SPIRV-Tools-shared.pc
         COMMAND ${CMAKE_COMMAND}
@@ -412,8 +412,7 @@ add_custom_command(
 add_custom_target(spirv-tools-pkg-config 
         ALL 
         DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/SPIRV-Tools-shared.pc ${CMAKE_CURRENT_BINARY_DIR}/SPIRV-Tools.pc)
-
-# Install pkg-config file
+		# Install pkg-config file
 if (ENABLE_SPIRV_TOOLS_INSTALL)
   install(
     FILES
@@ -422,3 +421,19 @@ if (ENABLE_SPIRV_TOOLS_INSTALL)
     DESTINATION
       ${CMAKE_INSTALL_LIBDIR}/pkgconfig)
 endif()
+
+else () 
+add_custom_target(spirv-tools-pkg-config 
+        ALL 
+        DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/SPIRV-Tools.pc)
+# Install pkg-config file
+if (ENABLE_SPIRV_TOOLS_INSTALL)
+  install(
+    FILES
+      ${CMAKE_CURRENT_BINARY_DIR}/SPIRV-Tools.pc
+    DESTINATION
+      ${CMAKE_INSTALL_LIBDIR}/pkgconfig)
+endif()
+
+endif()
+
