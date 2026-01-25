@@ -396,6 +396,7 @@ add_custom_command(
         DEPENDS "CHANGES" "${CMAKE_CURRENT_SOURCE_DIR}/cmake/SPIRV-Tools.pc.in" "${CMAKE_CURRENT_SOURCE_DIR}/cmake/write_pkg_config.cmake")
 if (NOT ANDROID)
   set(SPIRV_SHARED_LIBRARIES "-lSPIRV-Tools-shared")
+endif()
 add_custom_command(
         OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/SPIRV-Tools-shared.pc
         COMMAND ${CMAKE_COMMAND}
